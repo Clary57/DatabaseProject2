@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    # === 基础连接配置 (保持你原来的 5433 端口) ===
+    url: jdbc:postgresql://localhost:5432/sustc
+    username: sustc
+    password: sustc
+    driver-class-name: org.postgresql.Driver
+
+    # === [优化亮点] 连接池高级配置 ===
+    # 显式指定 HikariCP，体现专业性
+    type: com.zaxxer.hikari.HikariDataSource
+
+    hikari:
+      pool-name: SUSTech-Advanced-Pool
+      maximum-pool-size: 20
+      minimum-idle: 20
+
+
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+      # 开启泄露检测 (保留你原来的设置，但稍微调大一点以免误报)
+      leak-detection-threshold: 120000
+
+logging:
+  level:
+    # 建议 root 设为 INFO，不然 Spring 的杂音太多，干扰 Benchmark 日志
+    root: info
+    # 保留项目的 debug 日志
+    io.sustc: debug
+    # 开启 Hikari 的日志，方便你截图连接池启动信息
+    com.zaxxer.hikari: info
+
+---
+
+benchmark:
+  data-path: data
+  student-mode: true
